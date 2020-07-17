@@ -49,11 +49,11 @@ describe Board do
         it "checks an array for four diagonally" do
             grid = [
                 ["", "", "", "", "", "", ""],
-                ["", "X", "", "", "", "", ""],
-                ["", "", "X", "", "", "", ""],
+                ["", "", "", "", "", "", ""],
                 ["", "", "", "X", "", "", ""],
-                ["", "", "", "", "X", "", ""],
-                ["", "", "", "", "", "", ""]
+                ["", "", "X", "", "", "", ""],
+                ["", "X", "", "", "", "", ""],
+                ["X", "", "", "", "", "", ""]
             ]
             board = Board.new(grid: grid)
             new_grid = grid.diagonals
@@ -61,20 +61,23 @@ describe Board do
         end
     end
 
-    describe "#winner?" do
-        it "returns true with reverse diagonals" do
+    TestCell = Struct.new(:value)
+    let(:x_cell) { TestCell.new("X") }
+    let(:y_cell) { TestCell.new("Y") }
+    let(:empty) { TestCell.new("") }
+    describe "#game_over" do
+        it "returns :winner when winning condition is found in cells" do
             grid = [
-                ["X", "", "", "", "", "", ""],
-                ["", "X", "", "", "", "", ""],
-                ["", "", "X", "", "", "", ""],
-                ["", "", "", "X", "", "", ""],
-                ["", "", "", "", "", "", ""],
-                ["", "", "", "", "", "", ""]
+                [x_cell, y_cell, y_cell, y_cell, x_cell, y_cell, x_cell],
+                [x_cell, x_cell, y_cell, x_cell, y_cell, x_cell, y_cell],
+                [y_cell, y_cell, x_cell, y_cell, x_cell, x_cell, x_cell],
+                [y_cell, y_cell, x_cell, y_cell, x_cell, x_cell, x_cell]
             ]
             board = Board.new(grid: grid)
-            expect(board.winner?).to eq true
+            expect(board.game_over).to eq :winner
         end
     end
+
     
 end
 
