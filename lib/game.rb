@@ -37,6 +37,7 @@ class Game
         return "The game ended in a tie" if board.game_over == :draw
     end
 
+    #begins the game, alternating turns and making sure each option is a valid choice, then displays the board
     def play
         puts "#{current_player.name} has randomly been selected as the first player"
         while true
@@ -51,12 +52,9 @@ class Game
           end
           new_y = board.find_lowest_slot(x, y)
           board.set_cell(x, new_y, current_player.color)
-          if board.game_over == :winner
+          if board.game_over
             puts game_over_message
             board.formatted_grid
-            return
-          elsif board.game_over == :draw
-            puts "It's a draw!"
             return
           else
             switch_players

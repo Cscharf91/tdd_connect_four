@@ -66,12 +66,9 @@ describe Board do
     let(:y_cell) { TestCell.new("Y") }
     let(:empty) { TestCell.new("") }
     describe "#game_over" do
-        it "returns :winner when winning condition is found in cells" do
+        it "returns :winner when winning condition is found in cells " do
             grid = [
-                [x_cell, y_cell, y_cell, y_cell, x_cell, y_cell, x_cell],
-                [x_cell, x_cell, y_cell, x_cell, y_cell, x_cell, y_cell],
-                [y_cell, y_cell, x_cell, y_cell, x_cell, x_cell, x_cell],
-                [y_cell, y_cell, x_cell, y_cell, x_cell, x_cell, x_cell]
+                [empty, empty, empty, empty, empty, x_cell, empty],
             ]
             board = Board.new(grid: grid)
             expect(board.game_over).to eq :winner

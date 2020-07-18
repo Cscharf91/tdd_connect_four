@@ -28,35 +28,45 @@ class Board
         grid.flatten.map { |cell| cell.value }.none_empty?
     end
 
+    #converts the grid to an array containing each cell's value
     def win_values
         new_grid = grid.each { |e| e.map { |cell| cell = cell.value } }
-        new_grid
+        return new_grid
     end
 
+    #checks for a winner
     def winner?
-        newgrid = win_values
-        if four_in_a_row_rows(newgrid) == true ||
-        four_in_a_row_rows(newgrid.transpose) == true ||
-        four_in_a_row_rows(newgrid.diagonals) == true
+        if four_in_a_row_rows(grid) == true ||
+        four_in_a_row_rows(grid.transpose) == true ||
+        four_in_a_row_rows(grid.diagonals) == true
             return true
         else
             return false
         end
     end
 
+    #checks for 4 in a row- available for rows, columns, and diagonals
     def four_in_a_row_rows(arr)
-        arr.each do |row|
+        newgrid = [] 
+        
+        arr.each do |row| 
+            newgrid << row.map { |cell| cell = cell.value.to_s }
+        end
+        
+        newgrid.each do |row|
             a = row.each_cons(4).find { |a| a.uniq.size == 1 && a.first != '' }
             return true unless a.nil?
         end
     end
 
+    #displays the game board in the terminal
     def formatted_grid
         grid.each do |row|
           puts row.map { |cell| cell.value.empty? ? "_" : cell.value }.join(" ")
         end
     end
 
+    #confirms the player's choice is valid (the column isn't full)
     def valid?(x)
         new_y = 0
         until new_y > 4
@@ -70,6 +80,7 @@ class Board
         return true
     end
 
+    #finds the proper y-axis placement for the player's turn
     def find_lowest_slot(x, y)
         new_y = 0
         until new_y > 4
